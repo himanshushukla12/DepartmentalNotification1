@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:id="@+id/register_image"
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        app:srcCompat="@drawable/signup" />
+
+    <EditText
+
+        android:drawableStart="@drawable/ic_email_black_24dp"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/inputs"
+        android:id="@+id/register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Name" />
+
+    <EditText
+        android:drawableStart="@drawable/ic_local_phone_black_24dp"
+        android:padding="5dp"
+
+        android:layout_marginTop="10dp"
+        android:background="@drawable/inputs"
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Button
+        android:layout_marginTop="18dp"
+        android:background="@drawable/buttons"
+        android:id="@+id/register_button"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="create account"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:layout_marginTop="20sp"
+        android:id="@+id/already_have_account_link"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="already have account" />
+</LinearLayout>

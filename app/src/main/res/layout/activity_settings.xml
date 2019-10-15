@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingsActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/set_profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="405dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:src="@drawable/profilepicture"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
+
+    <EditText
+        android:id="@+id/set_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:drawableStart="@drawable/edit_profile"
+
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/inputs"
+        android:inputType="textPersonName"
+        android:hint="User Name" />
+    <EditText
+        android:id="@+id/set_profile_status"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:drawableStart="@drawable/edit_status"
+
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/inputs"
+        android:inputType="textPersonName"
+        android:hint="Hey! I'm here" />
+
+    <Button
+        android:background="@drawable/buttons"
+        android:id="@+id/update_settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:textSize="20sp"
+        android:textColor="#ffff"
+        android:layout_marginTop="30sp"/>
+
+
+</LinearLayout>
