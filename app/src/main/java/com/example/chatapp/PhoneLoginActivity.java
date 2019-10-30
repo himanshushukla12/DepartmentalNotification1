@@ -63,7 +63,8 @@ public class PhoneLoginActivity extends AppCompatActivity {
             {
 
 
-                String phoneNumber=InputPhoneNumber.getText().toString();
+
+                String phoneNumber="+91"+InputPhoneNumber.getText().toString();
 
                 if(TextUtils.isEmpty(phoneNumber))
                 {

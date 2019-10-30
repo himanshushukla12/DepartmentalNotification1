@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity"
+    android:background="@drawable/profile_activity">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/visit_profile_image"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110sp"
+        android:src="@drawable/profilepicture"
+        android:layout_centerHorizontal="true"
+
+        />
+    <TextView
+        android:id="@+id/visit_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="username"
+        android:layout_below="@+id/visit_profile_image"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp"
+        android:layout_marginTop="15sp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        />
+    <TextView
+        android:id="@+id/visit_profile_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="user status"
+        android:layout_below="@+id/visit_user_name"
+        android:layout_marginLeft="15sp"
+        android:layout_marginRight="15sp"
+        android:layout_marginTop="25sp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="25sp"
+        android:textStyle="bold"
+
+        />
+    <Button
+        android:id="@+id/send_message_request_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/visit_user_status"
+        android:layout_marginTop="15sp"
+        android:layout_marginLeft="65sp"
+        android:layout_marginRight="65sp"
+        android:textColor="@android:color/background_light"
+        android:background="@drawable/buttons"
+        android:textStyle="bold"
+        android:text="Send Message"
+        android:textAllCaps="false"
+        />
+
+
+</RelativeLayout>
