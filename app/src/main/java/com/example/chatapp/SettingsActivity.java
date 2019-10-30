@@ -35,6 +35,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -122,11 +123,11 @@ public class SettingsActivity extends AppCompatActivity {
                             userStatus.setText(retrieveStatus);
                             if(dataSnapshot.hasChild("image")) {
 
-                                String retrieveImage=dataSnapshot.child("image").getValue().toString();
+                                String retrieveImage= Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
                                 Glide.with(SettingsActivity.this).load(retrieveImage).into(userProfileImage);
-                                Toast.makeText(SettingsActivity.this,
+                               /* Toast.makeText(SettingsActivity.this,
                                         retrieveImage,
-                                        Toast.LENGTH_LONG).show();
+                                        Toast.LENGTH_LONG).show();*/
                             }
 
                         }
@@ -244,7 +245,7 @@ public class SettingsActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
 
-                            Toast.makeText(SettingsActivity.this,"Profile image uploaded success"+downloadUri,Toast.LENGTH_LONG).show();
+                            Toast.makeText(SettingsActivity.this,"Profile image uploaded success",Toast.LENGTH_LONG).show();
                             RootRef.child("Users").child(currentUserID).child("image").setValue(downloadUri.toString());
                             Glide.with(SettingsActivity.this).load(downloadUri).into(userProfileImage);
                             if(TextUtils.isEmpty(downloadUri.toString()))
