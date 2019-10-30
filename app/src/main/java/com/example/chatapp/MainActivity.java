@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             case R.id.main_find_friends_option:
-
+                SendUserToFindFriendsActivity();
 
             default:
 
@@ -238,5 +238,11 @@ public class MainActivity extends AppCompatActivity {
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    private void SendUserToFindFriendsActivity() {
+        Intent FindFriendIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
+
+        startActivity(FindFriendIntent);
     }
 }
