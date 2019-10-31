@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity
@@ -35,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity
         UserRef= FirebaseDatabase.getInstance().getReference().child("Users");
 
 
-        receiverUserID=getIntent().getExtras().get("visit_user_id").toString();
+        receiverUserID= Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get("visit_user_id")).toString();
 
         Toast.makeText(this,"User ID: "+receiverUserID,Toast.LENGTH_LONG).show();
 

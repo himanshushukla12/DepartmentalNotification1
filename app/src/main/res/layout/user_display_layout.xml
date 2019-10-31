@@ -10,12 +10,13 @@
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_profile_image"
-            android:layout_width="85sp"
-            android:layout_height="85dp"
+            android:layout_width="90sp"
+            android:layout_height="90sp"
             android:src="@drawable/profilepicture"
             />
        <LinearLayout
-           android:layout_marginLeft="5sp"
+           android:layout_marginTop="12sp"
+           android:layout_marginLeft="10sp"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:orientation="vertical"

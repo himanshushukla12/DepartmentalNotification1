@@ -6,14 +6,7 @@
     tools:context=".ContactsFragment">
 
     <!-- TODO: Update blank fragment  -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contacts"
-        android:layout_centerInParent="true"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        />
+
 
 
 

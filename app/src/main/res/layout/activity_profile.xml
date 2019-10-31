@@ -14,7 +14,6 @@
         android:layout_marginTop="110sp"
         android:src="@drawable/profilepicture"
         android:layout_centerHorizontal="true"
-
         />
     <TextView
         android:id="@+id/visit_user_name"
@@ -46,19 +45,22 @@
         android:textStyle="bold"
 
         />
+
     <Button
         android:id="@+id/send_message_request_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/visit_profile_status"
-        android:layout_marginTop="15sp"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="65sp"
+        android:layout_marginTop="33dp"
         android:layout_marginRight="65sp"
-        android:textColor="@android:color/background_light"
         android:background="@drawable/buttons"
-        android:textStyle="bold"
         android:text="Send Message"
         android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        android:layout_alignParentTop="false"
         />
 
 
