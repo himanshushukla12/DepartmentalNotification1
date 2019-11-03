@@ -28,6 +28,15 @@
         android:background="@drawable/inputs"
         android:inputType="textPersonName"
         android:hint="User Name" />
+   <!-- <Spinner
+        android:id="@+id/set_profile_status"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:drawableStart="@drawable/edit_status"
+        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/inputs"
+        />-->
     <EditText
         android:id="@+id/set_profile_status"
         android:layout_width="match_parent"

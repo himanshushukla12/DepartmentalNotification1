@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -196,6 +198,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void InitializeFields()
 
     {
+
+
+
         progressDialog=new ProgressDialog(SettingsActivity.this);
         UpdateAccountSettings=findViewById(R.id.update_settings_button);
         userName=findViewById(R.id.set_user_name);
@@ -323,5 +328,14 @@ public class SettingsActivity extends AppCompatActivity {
         return  map.getExtensionFromMimeType(
                 contentResolver.getType(uri));
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent intent=new Intent(SettingsActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
