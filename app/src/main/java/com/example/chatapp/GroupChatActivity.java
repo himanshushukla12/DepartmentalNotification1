@@ -123,7 +123,11 @@ public class GroupChatActivity extends AppCompatActivity {
         GroupNameRef=FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGroupName);
         mToolbar=findViewById(R.id.group_chat_bar_layout);
         setSupportActionBar(mToolbar);
+     //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimary));
+        getSupportActionBar().getThemedContext();
         getSupportActionBar().setTitle(currentGroupName);
+        getSupportActionBar().setLogo(R.drawable.ic_chat_black_24dp);
         SendMessageButton=findViewById(R.id.send_message_button);
         userMessageInput=findViewById(R.id.input_group_message);
         displayTextMessage=findViewById(R.id.group_chat_text_display);
@@ -212,7 +216,7 @@ public class GroupChatActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            hideSystemUI();
+          //  hideSystemUI();
         }
     }
 

@@ -62,6 +62,23 @@
         android:textStyle="bold"
         android:layout_alignParentTop="false"
         />
+    <Button
+        android:id="@+id/decline_message_request_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_message_request_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="65sp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="65sp"
+        android:background="@drawable/buttons"
+        android:text="Cancel Chat Request"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        android:layout_alignParentTop="false"
+        android:visibility="invisible"
+        />
 
 
 </RelativeLayout>

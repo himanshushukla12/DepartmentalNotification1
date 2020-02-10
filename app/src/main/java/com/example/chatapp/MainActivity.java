@@ -219,13 +219,13 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
+   /* @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             hideSystemUI();
         }
-    }
+    }*/
 
     private void hideSystemUI() {
         // Enables regular immersive mode.

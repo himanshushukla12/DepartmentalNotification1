@@ -56,19 +56,16 @@
 
         <EditText
             android:id="@+id/input_group_message"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
+            android:layout_width="658dp"
+            android:layout_height="match_parent"
             android:hint="@string/write_your_message_here"
-            android:padding="17dp"
-            />
+            android:padding="17dp" />
 
         <ImageButton
-
             android:id="@+id/send_message_button"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/send_message"
-            />
+            android:src="@drawable/send_message" />
 
     </LinearLayout>
 </RelativeLayout>

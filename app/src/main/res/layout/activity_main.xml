@@ -37,7 +37,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/main_tabs_pager"
         android:layout_below="@+id/appBarLayout"
-        ></androidx.viewpager.widget.ViewPager>
+        >
+
+
+
+    </androidx.viewpager.widget.ViewPager>
 
 
 </RelativeLayout>
