@@ -85,8 +85,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         String currentUserID=mAuth.getCurrentUser().getUid();
                                         RootRef.child("Users").child(currentUserID).setValue("");
                                         progressDialog.dismiss();
+                                       SendUserToSettingsActivity();
 
-                                        SendUserToMainActivity();
+                                       // SendUserToMainActivity();
                                         Toast.makeText(RegisterActivity.this,"Account created succesfully",Toast.LENGTH_LONG).show();
                                     }
                                     else
@@ -137,6 +138,12 @@ public class RegisterActivity extends AppCompatActivity {
         if (hasFocus) {
             hideSystemUI();
         }
+    }
+    private void SendUserToSettingsActivity() {
+        Intent loginIntent = new Intent(RegisterActivity.this, SettingsActivity.class);
+
+        startActivity(loginIntent);
+
     }
 
     private void hideSystemUI() {

@@ -145,11 +145,19 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_find_friends_option:
                 SendUserToFindFriendsActivity();
 
+            case R.id.about_developer:
+                SendUserToDeveloperActivity();
+
             default:
 
         }
 
         return true;
+    }
+
+    private void SendUserToDeveloperActivity() {
+
+        Toast.makeText(MainActivity.this,"Developed and created by himanshu shukla",Toast.LENGTH_LONG).show();
     }
 
     private void RequestNewGroup()
@@ -213,10 +221,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void SendUserToSettingsActivity() {
         Intent loginIntent = new Intent(MainActivity.this, SettingsActivity.class);
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         startActivity(loginIntent);
-        finish();
+
     }
 
    /* @Override
