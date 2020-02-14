@@ -3,6 +3,7 @@ package com.example.chatapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -58,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Uri fileUri;
     private Uri ImageUri;
 
+    private Toolbar SettingsToolBar;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +208,17 @@ public class SettingsActivity extends AppCompatActivity {
         userName=findViewById(R.id.set_user_name);
         userStatus=findViewById(R.id.set_profile_status);
         userProfileImage=findViewById(R.id.set_profile_image);
+
+
+        SettingsToolBar=(Toolbar)findViewById(R.id.settings_toolbar);
+        setSupportActionBar(SettingsToolBar);
+        SettingsToolBar.setTitleTextColor(getResources().getColor(R.color.colorPrimary));
+
+        getSupportActionBar().setLogo(R.drawable.ic_settings_black_24dp);
+        getSupportActionBar().getThemedContext();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setTitle("Account Details");
 
     }
 

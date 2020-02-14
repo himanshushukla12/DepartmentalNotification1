@@ -7,12 +7,17 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
+    <include
+        layout="@layout/app_bar_layout"
+        android:id="@+id/settings_toolbar">
+
+    </include>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/set_profile_image"
         android:layout_width="match_parent"
         android:layout_height="405dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="80sp"
         android:src="@drawable/profilepicture"
         app:civ_border_color="#FF000000"
         app:civ_border_width="2dp" />
