@@ -125,15 +125,13 @@ public class GroupChatActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
      //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimary));
-        getSupportActionBar().getThemedContext();
+        Objects.requireNonNull(getSupportActionBar()).getThemedContext();
         getSupportActionBar().setTitle(currentGroupName);
         getSupportActionBar().setLogo(R.drawable.ic_chat_black_24dp);
         SendMessageButton=findViewById(R.id.send_message_button);
         userMessageInput=findViewById(R.id.input_group_message);
         displayTextMessage=findViewById(R.id.group_chat_text_display);
         mScrollView=findViewById(R.id.my_scroll_view);
-
-
     }
 
     private void GetUserInfo()
@@ -201,7 +199,7 @@ public class GroupChatActivity extends AppCompatActivity {
         while (iterator.hasNext())
         {
             String chatDate=(String)((DataSnapshot)iterator.next()).getValue();
-            String chatMessage=(String)((String) ((DataSnapshot)iterator.next()).getValue()).trim();
+            String chatMessage=((String) ((DataSnapshot)iterator.next()).getValue()).trim();
             String chatName=(String)((DataSnapshot)iterator.next()).getValue();
             String chatTime=(String)((DataSnapshot)iterator.next()).getValue();
 

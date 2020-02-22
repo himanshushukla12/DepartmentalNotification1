@@ -14,7 +14,8 @@
     <item
         android:title="@string/settings"
         android:id="@+id/main_settings_option"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        />
 
 
     <item

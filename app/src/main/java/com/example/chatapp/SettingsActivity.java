@@ -42,7 +42,8 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity
+{
 
     private Button UpdateAccountSettings;
     private EditText userName,userStatus;
