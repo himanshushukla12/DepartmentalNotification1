@@ -1,9 +1,12 @@
 package com.example.chatapp;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +38,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @NonNull
     @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View view= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_messages_layout,parent,false);
         mAuth=FirebaseAuth.getInstance();
@@ -45,7 +49,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MessageViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull final MessageViewHolder holder, final int position)
     {
         String messageSenderId=mAuth.getCurrentUser().getUid();
         Messages messages=userMessagesList.get(position);
@@ -55,9 +59,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         usersRef= FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
 
-        usersRef.addValueEventListener(new ValueEventListener() {
+        usersRef.addValueEventListener(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
 
                 if(dataSnapshot.hasChild("image"))
                 {
@@ -73,31 +79,81 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
 
+
+
+        holder.recieverMessageText.setVisibility(View.GONE);
+        holder.recieverProfileImage.setVisibility(View.GONE);
+        holder.senderMessageText.setVisibility(View.GONE);
+        holder.messageSenderPicture.setVisibility(View.GONE);
+        holder.messageReceiverPicture.setVisibility(View.GONE);
         if(fromMessageType.equals("text"))
         {
-            holder.recieverMessageText.setVisibility(View.INVISIBLE);
-            holder.recieverProfileImage.setVisibility(View.INVISIBLE);
+
+
             if(fromUserID.equals(messageSenderId))
             {
+                holder.senderMessageText.setVisibility(View.VISIBLE);
                 holder.senderMessageText.setBackgroundResource(R.drawable.sender_messages_layout);
                 holder.senderMessageText.setTextColor(Color.BLACK);
-                holder.senderMessageText.setText(messages.getMessage());
+                holder.senderMessageText.setText(messages.getMessage()+"\n \n"+messages.getTime()+" - "+messages.getDate());
+
 
             }
             else
             {
-                holder.senderMessageText.setVisibility(View.INVISIBLE);
+
 
                 holder.recieverProfileImage.setVisibility(View.VISIBLE);
                 holder.recieverMessageText.setVisibility(View.VISIBLE);
 
                 holder.recieverMessageText.setBackgroundResource(R.drawable.reciever_messages_layout);
                 holder.recieverMessageText.setTextColor(Color.BLACK);
-                holder.recieverMessageText.setText(messages.getMessage());
+                holder.recieverMessageText.setText(messages.getMessage()+"\n \n"+messages.getTime()+" - "+messages.getDate());
             }
 
-        }
 
+        }
+        else if(fromMessageType.equals("image"))
+        {
+            if(fromUserID.equals(messageSenderId))
+            {
+                holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.profilepicture).into(holder.messageSenderPicture);
+
+            }
+            else
+            {
+                holder.recieverProfileImage.setVisibility(View.VISIBLE);
+                holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.profilepicture).into(holder.messageReceiverPicture);
+
+            }
+        }
+        else
+        {
+            if (fromUserID.equals(messageSenderId))
+            {
+                holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                holder.messageSenderPicture.setBackgroundResource(R.drawable.file);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                });
+
+            }
+            else
+            {
+                holder.recieverProfileImage.setVisibility(View.VISIBLE);
+                holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+                holder.messageReceiverPicture.setBackgroundResource(R.drawable.file);
+            }
+        }
     }
 
     @Override
@@ -110,6 +166,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         public TextView senderMessageText, recieverMessageText;
         public CircleImageView recieverProfileImage;
+        public ImageView messageSenderPicture, messageReceiverPicture;
         public MessageViewHolder(@NonNull View itemView)
 
         {
@@ -120,6 +177,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             senderMessageText=itemView.findViewById(R.id.sender_message_text);
             recieverMessageText=itemView.findViewById(R.id.receiver_message_text);
             recieverProfileImage=itemView.findViewById(R.id.message_profile_image);
+            messageReceiverPicture=itemView.findViewById(R.id.message_receiver_image_view);
+            messageSenderPicture=itemView.findViewById(R.id.message_sender_image_view);
 
 
         }

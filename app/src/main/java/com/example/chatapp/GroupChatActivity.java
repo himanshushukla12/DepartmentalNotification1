@@ -51,7 +51,7 @@ public class GroupChatActivity extends AppCompatActivity {
 
 
        InitializeFields();
-        
+
         GetUserInfo();
 
         SendMessageButton.setOnClickListener(new View.OnClickListener() {

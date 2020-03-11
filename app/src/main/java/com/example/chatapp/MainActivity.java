@@ -7,9 +7,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
+import android.provider.CalendarContract;
 import android.provider.Telephony;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -30,6 +33,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -38,10 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager myViewPager;
     private TabsAccessorAdaptor myTabsAccessorAdaptor;
 
-    private FirebaseUser currentUser;
+   // private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
 
+    private String currentUserID;
 
     private TabLayout myTabLayout;
 
@@ -51,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+        mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Departmental Notification");
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
+
         RootRef= FirebaseDatabase.getInstance().getReference();
         myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
         myTabsAccessorAdaptor = new TabsAccessorAdaptor(getSupportFragmentManager());
@@ -71,14 +80,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             SendUserToLoginActivity();
         }
         else
         {
+            updateUserStatus("online");
+
             VerifyUserExistence();
         }
 
+    }
+
+    @Override
+    protected void onStop()
+    {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        super.onStop();
+
+        if(currentUser!=null)
+        {
+            updateUserStatus("offline");
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        super.onDestroy();
+        if(currentUser!=null)
+        {
+            updateUserStatus("offline");
+        }
     }
 
     private void VerifyUserExistence()
@@ -129,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.main_logout_option:
+                updateUserStatus("offline");
                 mAuth.signOut();
                 SendUserToLoginActivity();
                 break;
@@ -155,7 +192,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void SendUserToDeveloperActivity() {
+    private void SendUserToDeveloperActivity()
+    {
+        ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
+        progressDialog.setTitle("about Developer");
+        progressDialog.setIcon(R.drawable.ic_developer_mode_black_24dp);
+        progressDialog.setMessage("This is Developed under the license of KRISHNA INSTITUTE OF TECHNOLOGY\n");
+   //     progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+
 
         Toast.makeText(MainActivity.this,"Developed and created by himanshu shukla",Toast.LENGTH_LONG).show();
     }
@@ -255,5 +301,29 @@ public class MainActivity extends AppCompatActivity {
         Intent FindFriendIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
 
         startActivity(FindFriendIntent);
+    }
+    private void updateUserStatus(String state)
+    {
+        String saveCurrentTime, saveCurrentDate;
+
+        Calendar calendar=Calendar.getInstance();
+
+        SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate=currentDate.format(calendar.getTime());
+        SimpleDateFormat currentTime=new SimpleDateFormat("hh:mm a");
+
+        saveCurrentTime=currentTime.format(calendar.getTime());
+
+        HashMap<String,Object> onlineStateMap =new HashMap<>();
+        onlineStateMap.put("time",saveCurrentTime);
+        onlineStateMap.put("date",saveCurrentDate);
+        onlineStateMap.put("state",state);
+
+        currentUserID=mAuth.getCurrentUser().getUid();
+
+        RootRef.child("Users").child(currentUserID).child("userState")
+                .updateChildren(onlineStateMap);
+
+
     }
 }

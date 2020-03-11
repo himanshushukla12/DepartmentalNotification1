@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
-public class Contacts {
+public class Contacts
+{
     public String name;
     public String status;
     public String image;

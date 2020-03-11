@@ -12,6 +12,7 @@ import android.service.autofill.TextValueSanitizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -86,11 +87,35 @@ public class ContactsFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
+                            if(dataSnapshot.exists())
+                            {
+                                if(dataSnapshot.child("userState").hasChild("state"))
+                                {
+                                    String date=dataSnapshot.child("userState").child("date").getValue().toString();
+                                    String state=dataSnapshot.child("userState").child("state").getValue().toString();
+                                    String time=dataSnapshot.child("userState").child("time").getValue().toString();
+
+                                    if(state.equals("online"))
+                                    {
+                                        holder.onlineIcon.setVisibility(View.VISIBLE);
+                                    }
+                                    else if(state.equals("offline"))
+                                    {
+                                        holder.onlineIcon.setVisibility(View.INVISIBLE);
+                                    }
+                                }
+                                else
+                                {
+
+                                    holder.onlineIcon.setVisibility(View.INVISIBLE);
+                                }
+                            }
+
                         if(dataSnapshot.hasChild("image"))
                         {
                             String userImage=dataSnapshot.child("image").getValue().toString();
-                            String profileName=dataSnapshot.child("status").getValue().toString();
-                             String profileStatus=dataSnapshot.child("name").getValue().toString();
+                            String profileStatus=dataSnapshot.child("status").getValue().toString();
+                             String profileName=dataSnapshot.child("name").getValue().toString();
 
                             holder.userName.setText(profileName);
                             holder.userStatus.setText(profileStatus);
@@ -100,8 +125,8 @@ public class ContactsFragment extends Fragment {
                         else
                         {
                            // String userImage=dataSnapshot.child("image").getValue().toString();
-                            String profileName=dataSnapshot.child("status").getValue().toString();
-                            String profileStatus=dataSnapshot.child("name").getValue().toString();
+                            String profileName=dataSnapshot.child("name").getValue().toString();
+                            String profileStatus=dataSnapshot.child("status").getValue().toString();
 
                             holder.userName.setText(profileName);
                             holder.userStatus.setText(profileStatus);
@@ -134,10 +159,12 @@ public class ContactsFragment extends Fragment {
     {
         TextView userName, userStatus;
         CircleImageView profileImage;
+        ImageView onlineIcon;
         public ContactsViewHolder(@NonNull View itenView)
         {
             super(itenView);
 
+            onlineIcon=itenView.findViewById(R.id.user_online_status);
             userName=itenView.findViewById(R.id.user_profile_name);
             userStatus=itenView.findViewById(R.id.user_status);
             profileImage=itenView.findViewById(R.id.user_profile_image);

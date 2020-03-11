@@ -39,6 +39,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".PhoneLoginActivity" />
         <activity android:name=".GroupChatActivity" />
+
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
@@ -56,12 +57,13 @@
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a3a59ab4301dfd5e70698169cfe2afab6b8255b3" />
+
     </application>
 
 </manifest>

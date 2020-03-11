@@ -15,8 +15,10 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SettingsActivity extends AppCompatActivity
 {
+    private Switch aSwitch;
 
     private Button UpdateAccountSettings;
     private EditText userName,userStatus;
@@ -88,6 +91,20 @@ public class SettingsActivity extends AppCompatActivity
         });
 
         RetrieveUserInfo();
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    hideSystemUI();
+
+                }
+                else
+                    {
+                       showSystemUI();
+                }
+            }
+        });
 
         userProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,9 +218,7 @@ public class SettingsActivity extends AppCompatActivity
     private void InitializeFields()
 
     {
-
-
-
+        aSwitch=findViewById(R.id.screenFullSwitch);
         progressDialog=new ProgressDialog(SettingsActivity.this);
         UpdateAccountSettings=findViewById(R.id.update_settings_button);
         userName=findViewById(R.id.set_user_name);
@@ -331,6 +346,18 @@ public class SettingsActivity extends AppCompatActivity
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+    private void showSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_VISIBLE
+                        );
     }
 
     public String getFileExt(Uri uri)

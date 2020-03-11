@@ -12,10 +12,11 @@
         android:id="@+id/settings_toolbar">
 
     </include>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/set_profile_image"
-        android:layout_width="match_parent"
-        android:layout_height="405dp"
+        android:layout_width="369dp"
+        android:layout_height="263dp"
         android:layout_gravity="center"
         android:layout_marginTop="80sp"
         android:src="@drawable/profilepicture"
@@ -63,6 +64,12 @@
         android:textSize="20sp"
         android:textColor="#ffff"
         android:layout_marginTop="30sp"/>
+
+    <Switch
+        android:id="@+id/screenFullSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="full screen UI" />
 
 
 </LinearLayout>
