@@ -2,16 +2,21 @@ package com.example.chatapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,10 +39,13 @@ import java.util.Objects;
 
 public class GroupChatActivity extends AppCompatActivity {
     private Toolbar mToolbar;
-    private ImageButton SendMessageButton;
+    private ImageButton SendMessageButton,SendFilesButton;
     private EditText userMessageInput;
     private TextView displayTextMessage;
     private ScrollView mScrollView;
+    private String checker="";
+    private ImageView UserImageView;
+
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef, GroupNameRef,GroupMessageKeyRef;
@@ -48,11 +57,60 @@ public class GroupChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
 
-
+        // taking screenshot disabled by the line below
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
        InitializeFields();
 
         GetUserInfo();
+
+        SendFilesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence options[] = new CharSequence[]
+                        {
+                                "images","PDF files","Ms Word files"
+                        };
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(GroupChatActivity.this);
+                builder.setTitle("Select the file");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if(which==0)
+                        {
+                            checker="image";
+
+                            Intent intent=new Intent();
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
+                            startActivityForResult(intent.createChooser(intent,"Select Image"),438);
+                        }
+                        else
+                        if(which==1)
+                        {
+                            checker="PDF files";
+                            Intent intent=new Intent();
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setType("application/pdf");
+                            startActivityForResult(intent.createChooser(intent,"Select pdf file"),438);
+
+                        }
+                        else if(which==2)
+                        {
+                            checker="docx";
+                            Intent intent=new Intent();
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setType("application/msword");
+                            startActivityForResult(intent.createChooser(intent,"Select MS Word file"),438);
+
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
 
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +172,10 @@ public class GroupChatActivity extends AppCompatActivity {
 
     private void InitializeFields()
     {
+        UserImageView=findViewById(R.id.userImageView);
+        UserImageView.setVisibility(View.GONE);
+        SendFilesButton=findViewById(R.id.send_files_btn1);
+        SendFilesButton.setVisibility(View.GONE);
         currentGroupName=getIntent().getExtras().get("groupName").toString();
         Toast.makeText(GroupChatActivity.this,currentGroupName,Toast.LENGTH_LONG).show();
 
@@ -187,6 +249,7 @@ public class GroupChatActivity extends AppCompatActivity {
             messageInfoMap.put("message",message);
             messageInfoMap.put("date",currentDate);
             messageInfoMap.put("time",currentTime);
+            messageInfoMap.put("UID",currentUserID);
 
             GroupMessageKeyRef.updateChildren(messageInfoMap);
 
@@ -198,12 +261,18 @@ public class GroupChatActivity extends AppCompatActivity {
         Iterator iterator=dataSnapshot.getChildren().iterator();
         while (iterator.hasNext())
         {
+            String UID=(String)((DataSnapshot)iterator.next()).getValue();
             String chatDate=(String)((DataSnapshot)iterator.next()).getValue();
             String chatMessage=((String) ((DataSnapshot)iterator.next()).getValue()).trim();
             String chatName=(String)((DataSnapshot)iterator.next()).getValue();
             String chatTime=(String)((DataSnapshot)iterator.next()).getValue();
 
-            displayTextMessage.setTypeface(displayTextMessage.getTypeface(), Typeface.BOLD);
+
+
+
+
+            displayTextMessage.setTypeface(displayTextMessage.getTypeface(), Typeface.BOLD_ITALIC);
+
 
             displayTextMessage.append(chatName+" :\n"+chatMessage+" \n"+chatTime+" "+chatDate+"\n\n\n");
             mScrollView.fullScroll(ScrollView.FOCUS_DOWN);

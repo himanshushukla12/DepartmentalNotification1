@@ -3,6 +3,7 @@ package com.example.chatapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     private DatabaseReference UsersRef;
 
     private Button LoginButton,PhoneLoginButton;
-    private EditText UserEmail,UserPassword;
+    private EditText UserEmail,UserPassword,ForgetPasswordEditText;
+    private Button resetPasswordButton;
     private TextView NeedNewAccountLink,ForgetPasswordLink;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,48 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 SendUserToRegisterActivity();
+            }
+        });
+        ForgetPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                final Dialog dialog=new Dialog(LoginActivity.this);
+                dialog.setContentView(R.layout.forgot_password_custom_layout);
+                //dialog.setCancelable(false);
+                ForgetPasswordEditText=dialog.findViewById(R.id.emailEditText);
+                resetPasswordButton=dialog.findViewById(R.id.resetPasswordButtonCustom);
+
+
+                resetPasswordButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        mAuth.sendPasswordResetEmail(ForgetPasswordEditText.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task)
+                                    {
+                                        if(task.isSuccessful())
+                                        {
+                                            Toast.makeText(LoginActivity.this,"password reset link\nhas been sent to your\nregistered email id",Toast.LENGTH_LONG).show();
+
+                                            dialog.dismiss();
+
+                                        }
+
+                                        else
+                                        {
+                                            Toast.makeText(LoginActivity.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+
+                                            dialog.dismiss();
+                                        }
+                                    }
+                                });
+                    }
+                });
+                dialog.show();
             }
         });
         
@@ -141,6 +185,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void InitialiseFields()
     {
+
+
         LoginButton=findViewById(R.id.login_button);
         PhoneLoginButton=findViewById(R.id.phone_login_button);
         UserEmail=findViewById(R.id.login_email);

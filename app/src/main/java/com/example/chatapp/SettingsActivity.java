@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -47,6 +49,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsActivity extends AppCompatActivity
 {
     private Switch aSwitch;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     private Button UpdateAccountSettings;
     private EditText userName,userStatus;
@@ -72,6 +77,9 @@ public class SettingsActivity extends AppCompatActivity
 
         InitializeFields();
 
+
+
+
         userName.setVisibility(View.INVISIBLE);
 
         mAuth=FirebaseAuth.getInstance();
@@ -94,14 +102,19 @@ public class SettingsActivity extends AppCompatActivity
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+
                 if(isChecked)
                 {
-                    hideSystemUI();
+                    editor.putBoolean("full",isChecked);
+                    editor.commit();
+                    ///hideSystemUI();
 
                 }
                 else
                     {
-                       showSystemUI();
+                     //showSystemUI();
                 }
             }
         });
@@ -146,7 +159,8 @@ public class SettingsActivity extends AppCompatActivity
                             if(dataSnapshot.hasChild("image")) {
 
                                 String retrieveImage= Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
-                                Glide.with(SettingsActivity.this).load(retrieveImage).into(userProfileImage);
+                              //  Glide.with(SettingsActivity.this).load(retrieveImage).into(userProfileImage);
+                                Picasso.get().load(retrieveImage).placeholder(R.drawable.ic_person_black_24dp).into(userProfileImage);
                                /* Toast.makeText(SettingsActivity.this,
                                         retrieveImage,
                                         Toast.LENGTH_LONG).show();*/
@@ -218,6 +232,9 @@ public class SettingsActivity extends AppCompatActivity
     private void InitializeFields()
 
     {
+        sharedPreferences=getSharedPreferences("windowMode",MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+
         aSwitch=findViewById(R.id.screenFullSwitch);
         progressDialog=new ProgressDialog(SettingsActivity.this);
         UpdateAccountSettings=findViewById(R.id.update_settings_button);
@@ -327,7 +344,7 @@ public class SettingsActivity extends AppCompatActivity
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            hideSystemUI();
+        //  hideSystemUI();
         }
     }
 

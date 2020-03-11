@@ -15,9 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ChatActivity"
-            android:parentActivityName=".MainActivity"
-            ></activity>
+
+        <activity
+            android:name=".ChatActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +40,6 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".PhoneLoginActivity" />
         <activity android:name=".GroupChatActivity" />
-
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
@@ -63,7 +63,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a3a59ab4301dfd5e70698169cfe2afab6b8255b3" />
-
     </application>
 
 </manifest>

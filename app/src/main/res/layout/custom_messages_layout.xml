@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
+        android:backgroundTint="#7ECAAF"
         android:layout_toEndOf="@+id/message_profile_image"
         android:text="receiver messages here"
         android:padding="10dp"
@@ -42,6 +43,7 @@
         />
 
     <TextView
+        android:backgroundTint="#A2D694"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sender_message_text"

@@ -1,11 +1,16 @@
 package com.example.chatapp;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,6 +35,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     private List<Messages> userMessagesList;
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
+
+
+    private ImageView imageViewCustomLayoutButton;
 
 
     public MessageAdapter (List<Messages> userMessagesList)
@@ -42,6 +51,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     {
         View view= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_messages_layout,parent,false);
+
+        imageViewCustomLayoutButton=view.findViewById(R.id.message_receiver_image_view);
         mAuth=FirebaseAuth.getInstance();
 
         return new MessageViewHolder(view);
@@ -69,7 +80,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 {
                     String recieverImage=dataSnapshot.child("image").getValue().toString();
 
-                    Picasso.get().load(recieverImage).placeholder(R.drawable.profilepicture).into(holder.recieverProfileImage);
+                    Picasso.get().load(recieverImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.recieverProfileImage);
                 }
             }
 
@@ -119,14 +130,27 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             {
                 holder.messageSenderPicture.setVisibility(View.VISIBLE);
 
-                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.profilepicture).into(holder.messageSenderPicture);
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageSenderPicture);
+
+
+
+                //to download image default method
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);
+
+
+                    }
+                });
 
             }
             else
             {
                 holder.recieverProfileImage.setVisibility(View.VISIBLE);
                 holder.messageReceiverPicture.setVisibility(View.VISIBLE);
-                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.profilepicture).into(holder.messageReceiverPicture);
+                Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageReceiverPicture);
 
             }
         }

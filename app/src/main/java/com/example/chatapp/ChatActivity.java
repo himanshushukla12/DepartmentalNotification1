@@ -58,6 +58,7 @@ public class ChatActivity extends AppCompatActivity
     private TextView userName,userLastSeen;
     private CircleImageView userImage;
 
+    private int GALLERY = 1, CAMERA = 2;
     private ProgressDialog progressDialog;
     private Toolbar ChatToolBar;
     private FirebaseAuth mAuth;
@@ -126,10 +127,12 @@ public class ChatActivity extends AppCompatActivity
                         {
                             checker="image";
 
-                            Intent intent=new Intent();
+                           /* Intent intent=new Intent();
                             intent.setAction(Intent.ACTION_GET_CONTENT);
                             intent.setType("image/*");
-                            startActivityForResult(intent.createChooser(intent,"Select Image"),438);
+                            startActivityForResult(intent.createChooser(intent,"Select Image"),438);*/
+
+                           showPictureDialog();
                         }
                         else
                             if(which==1)
@@ -156,7 +159,38 @@ public class ChatActivity extends AppCompatActivity
             }
         });
     }
+    private void showPictureDialog(){
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+        pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {
+                "Select photo from gallery",
+                "Capture photo from camera" };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallary();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+    public void choosePhotoFromGallary() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+        startActivityForResult(galleryIntent, 438);
+    }
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 438);
+    }
     private void InitializeControllers()
     {
 
