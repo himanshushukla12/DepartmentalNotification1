@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class FindFriendsActivity extends AppCompatActivity {
         FindFriendsRecyclerList.setLayoutManager(new LinearLayoutManager(this));
 
         UsersRef= FirebaseDatabase.getInstance().getReference().child("Users");
-
+        UsersRef.keepSynced(true);
         mToolBar=(Toolbar) findViewById(R.id.find_friends_toolbar);
         setSupportActionBar(mToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

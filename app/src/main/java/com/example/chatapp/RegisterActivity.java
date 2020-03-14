@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
 
         RootRef= FirebaseDatabase.getInstance().getReference();
+        RootRef.keepSynced(true);
 
         InitialiseFields();
         AlreadyHaveAccountLink.setOnClickListener(new View.OnClickListener() {

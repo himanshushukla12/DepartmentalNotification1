@@ -62,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity
         Current_State="new";
         
         RetrieveUserInfo();
+
+        UserRef.keepSynced(true); ChatRequestRef.keepSynced(true); ContactsRef.keepSynced(true); NotificationRef.keepSynced(true);
     }
 
     private void RetrieveUserInfo()

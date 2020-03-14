@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -57,7 +58,7 @@ public class ChatActivity extends AppCompatActivity
     private String messageRecieverID,messageRecieverName,messageRecieverImage,messageSenderID;
     private TextView userName,userLastSeen;
     private CircleImageView userImage;
-
+    private static final String TAG = "ChatActivity";
     private int GALLERY = 1, CAMERA = 2;
     private ProgressDialog progressDialog;
     private Toolbar ChatToolBar;
@@ -77,8 +78,6 @@ public class ChatActivity extends AppCompatActivity
     private String checker="",myUrl;
     private StorageTask uploadTask;
     private Uri fileUri,downloadUri;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -422,24 +421,18 @@ public class ChatActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-
+    protected void onStart()
+    {
         super.onStart();
-
-
-
         RootRef.child("Messages").child(messageSenderID).child(messageRecieverID)
-                .addChildEventListener(new ChildEventListener() {
+                .addChildEventListener(new ChildEventListener()
+                {
                     @Override
-
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
                     {
-
                         Messages messages=dataSnapshot.getValue(Messages.class);
                         messagesList.add(messages);
                         messageAdapter.notifyDataSetChanged();
-
-
                         userMessagesList.smoothScrollToPosition(userMessagesList.getAdapter().getItemCount());
                     }
 
@@ -510,5 +503,43 @@ public class ChatActivity extends AppCompatActivity
                 }
             });
         }
+    }
+    private void enablePersistence() {
+        // [START rtdb_enable_persistence]
+
+
+        RootRef.keepSynced(true);
+
+        RootRef.orderByValue().limitToLast(4).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d(TAG, "The " +dataSnapshot.getKey() + " dinosaur's score is " + dataSnapshot.getValue());
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        // [END rtdb_enable_persistence]
     }
 }

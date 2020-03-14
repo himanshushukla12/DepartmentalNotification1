@@ -36,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -85,6 +87,8 @@ public class SettingsActivity extends AppCompatActivity
         mAuth=FirebaseAuth.getInstance();
         currentUserID=mAuth.getCurrentUser().getUid();
         RootRef= FirebaseDatabase.getInstance().getReference();
+
+        RootRef.keepSynced(true);
 
         UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
@@ -158,9 +162,23 @@ public class SettingsActivity extends AppCompatActivity
                             userStatus.setText(retrieveStatus);
                             if(dataSnapshot.hasChild("image")) {
 
-                                String retrieveImage= Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+                                final String retrieveImage= Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
                               //  Glide.with(SettingsActivity.this).load(retrieveImage).into(userProfileImage);
-                                Picasso.get().load(retrieveImage).placeholder(R.drawable.ic_person_black_24dp).into(userProfileImage);
+                               // Picasso.get().load(retrieveImage).placeholder(R.drawable.ic_person_black_24dp).into(userProfileImage);
+
+                                Picasso.get().load(retrieveImage).placeholder(R.drawable.profilepicture).networkPolicy(NetworkPolicy.OFFLINE).into(userProfileImage,
+                                        new Callback() {
+                                            @Override
+                                            public void onSuccess() {
+
+                                            }
+
+                                            @Override
+                                            public void onError(Exception e) {
+                                                Picasso.get().load(retrieveImage).placeholder(R.drawable.ic_person_black_24dp).into(userProfileImage);
+
+                                            }
+                                        });
                                /* Toast.makeText(SettingsActivity.this,
                                         retrieveImage,
                                         Toast.LENGTH_LONG).show();*/

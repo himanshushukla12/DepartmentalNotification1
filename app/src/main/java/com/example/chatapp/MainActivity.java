@@ -4,12 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.multidex.MultiDex;
 import androidx.viewpager.widget.ViewPager;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.CalendarContract;
@@ -42,6 +47,8 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
+
+
     private Toolbar mToolbar;
     private ViewPager myViewPager;
     private TabsAccessorAdaptor myTabsAccessorAdaptor;
@@ -54,15 +61,23 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout myTabLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+        (FirebaseDatabase.getInstance().getReference()).keepSynced(true);
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Departmental Notification");
+
+        //Checking the connection
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -73,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
         myTabLayout = findViewById(R.id.main_tabs);
         myViewPager.setAdapter(myTabsAccessorAdaptor);
+
+        MultiDex.install(this);
 
         myTabLayout.setupWithViewPager(myViewPager);
     }
@@ -325,5 +342,11 @@ public class MainActivity extends AppCompatActivity {
                 .updateChildren(onlineStateMap);
 
 
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

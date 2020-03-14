@@ -65,6 +65,7 @@ public class RequestsFragment extends Fragment
         myRequestList= RequestsFragmentView.findViewById(R.id.chat_requests_list);
         myRequestList.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        ChatRequestRef.keepSynced(true); UsersRef.keepSynced(true); ContactsRef.keepSynced(true);
 
         return RequestsFragmentView;
 

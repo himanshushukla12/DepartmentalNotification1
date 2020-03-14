@@ -41,10 +41,9 @@ public class GroupChatActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ImageButton SendMessageButton,SendFilesButton;
     private EditText userMessageInput;
-    private TextView displayTextMessage;
+    private TextView displayTextMessage,senderNameTextView;
     private ScrollView mScrollView;
     private String checker="";
-    private ImageView UserImageView;
 
 
     private FirebaseAuth mAuth;
@@ -122,6 +121,10 @@ public class GroupChatActivity extends AppCompatActivity {
                 mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
             }
         });
+
+        UsersRef.keepSynced(true);
+        GroupNameRef.keepSynced(true);
+
     }
 
     @Override
@@ -172,8 +175,7 @@ public class GroupChatActivity extends AppCompatActivity {
 
     private void InitializeFields()
     {
-        UserImageView=findViewById(R.id.userImageView);
-        UserImageView.setVisibility(View.GONE);
+        senderNameTextView=findViewById(R.id.senderName);
         SendFilesButton=findViewById(R.id.send_files_btn1);
         SendFilesButton.setVisibility(View.GONE);
         currentGroupName=getIntent().getExtras().get("groupName").toString();
@@ -243,7 +245,7 @@ public class GroupChatActivity extends AppCompatActivity {
             GroupNameRef.updateChildren(groupMessageKey);
 
             GroupMessageKeyRef=GroupNameRef.child(messageKEY);
-
+            GroupMessageKeyRef.keepSynced(true);
             HashMap<String,Object> messageInfoMap=new HashMap<>();
             messageInfoMap.put("name",currentUserName);
             messageInfoMap.put("message",message);
@@ -271,9 +273,10 @@ public class GroupChatActivity extends AppCompatActivity {
 
 
 
-            displayTextMessage.setTypeface(displayTextMessage.getTypeface(), Typeface.BOLD_ITALIC);
+            displayTextMessage.setTypeface(displayTextMessage.getTypeface(), Typeface.NORMAL);
+            senderNameTextView.setTypeface(senderNameTextView.getTypeface(),Typeface.BOLD_ITALIC);
 
-
+            senderNameTextView.setVisibility(View.GONE);
             displayTextMessage.append(chatName+" :\n"+chatMessage+" \n"+chatTime+" "+chatDate+"\n\n\n");
             mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
 

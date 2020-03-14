@@ -178,6 +178,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.messageReceiverPicture.setBackgroundResource(R.drawable.file);
             }
         }
+        usersRef.keepSynced(true);
     }
 
     @Override

@@ -50,6 +50,7 @@ public class GroupsFragment extends Fragment {
         // Inflate the layout for this fragment
         
         GroupRef= FirebaseDatabase.getInstance().getReference().child("Groups");
+        GroupRef.keepSynced(true);
         
         InitializeFields();
 
