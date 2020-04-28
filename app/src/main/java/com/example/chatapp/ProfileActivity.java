@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity
         UserRef= FirebaseDatabase.getInstance().getReference().child("Users");
         ChatRequestRef= FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         ContactsRef= FirebaseDatabase.getInstance().getReference().child("Contacts");
+
         NotificationRef= FirebaseDatabase.getInstance().getReference().child("Notifications");
 
 
@@ -63,7 +64,8 @@ public class ProfileActivity extends AppCompatActivity
         
         RetrieveUserInfo();
 
-        UserRef.keepSynced(true); ChatRequestRef.keepSynced(true); ContactsRef.keepSynced(true); NotificationRef.keepSynced(true);
+        UserRef.keepSynced(true); ChatRequestRef.keepSynced(true); ContactsRef.keepSynced(true);
+        NotificationRef.keepSynced(true);
     }
 
     private void RetrieveUserInfo()

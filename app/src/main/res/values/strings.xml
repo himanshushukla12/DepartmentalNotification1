@@ -9,5 +9,8 @@
     <string name="logout">logout</string>
     <string name="write_your_message_here">write your message here…</string>
     <string name="email">Email…</string>
+    <string name="instructions">
+Place your fingertip on the Home button to verify your identity
+</string>
     <string name="enter_email_id">Enter email id</string>
 </resources>

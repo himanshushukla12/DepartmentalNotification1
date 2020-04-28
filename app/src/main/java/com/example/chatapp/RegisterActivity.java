@@ -25,7 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 public class RegisterActivity extends AppCompatActivity {
 
     private Button createAccountButton;
-    private EditText UserEmail,UserPassword;
+    private EditText UserEmail,UserPassword,UserPassword2;
     private TextView AlreadyHaveAccountLink;
 
     private FirebaseAuth mAuth;
@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,"Please enter email",Toast.LENGTH_LONG).show();
                 }
 
-                else
+                else if(UserPassword.getText().toString().equals(UserPassword2.getText().toString()))
                 {
                     progressDialog.setMessage("please wait");
                     progressDialog.setTitle("Creating new account");
@@ -108,6 +108,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
                 }
+                else if(!(UserPassword.getText().toString().equals(UserPassword2.getText().toString())))
+                {
+                    UserPassword.setError("password not match");
+                }
             }
         });
     }
@@ -116,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
         createAccountButton = findViewById(R.id.register_button);
         UserEmail = findViewById(R.id.register_email);
         UserPassword = findViewById(R.id.register_password);
+        UserPassword2= findViewById(R.id.register_password2);
         AlreadyHaveAccountLink = findViewById(R.id.already_have_account_link);
 
         progressDialog=new ProgressDialog(RegisterActivity.this);

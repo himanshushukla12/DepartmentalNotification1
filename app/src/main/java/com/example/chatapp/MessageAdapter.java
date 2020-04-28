@@ -17,12 +17,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -55,6 +58,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         imageViewCustomLayoutButton=view.findViewById(R.id.message_receiver_image_view);
         mAuth=FirebaseAuth.getInstance();
 
+
         return new MessageViewHolder(view);
 
     }
@@ -67,6 +71,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
         String fromUserID=messages.getFrom();
         String fromMessageType=messages.getType();
+
 
         usersRef= FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserID);
 
@@ -132,16 +137,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
                 Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageSenderPicture);
 
-
-
                 //to download image default method
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
-                        holder.itemView.getContext().startActivity(intent);
-
-
+                        /*Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        holder.itemView.getContext().startActivity(intent);*/
+                        Uri uri = Uri.parse(userMessagesList.get(position).getMessage());
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_VIEW);
+                        shareIntent.setDataAndType(uri, "image/*");
+                        holder.itemView.getContext().startActivity(Intent.createChooser(shareIntent,"select an app to open the file"));
                     }
                 });
 
@@ -151,6 +157,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 holder.recieverProfileImage.setVisibility(View.VISIBLE);
                 holder.messageReceiverPicture.setVisibility(View.VISIBLE);
                 Picasso.get().load(messages.getMessage()).placeholder(R.drawable.ic_image_black_24dp).into(holder.messageReceiverPicture);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri uri = Uri.parse(userMessagesList.get(position).getMessage());
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_VIEW);
+                        shareIntent.setDataAndType(uri, "image/*");
+                        holder.itemView.getContext().startActivity(Intent.createChooser(shareIntent,"select an app to open the file"));
+
+                    }
+                });
 
             }
         }
@@ -180,6 +197,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
         usersRef.keepSynced(true);
     }
+
 
     @Override
     public int getItemCount()

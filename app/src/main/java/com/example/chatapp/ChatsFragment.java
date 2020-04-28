@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +52,8 @@ public class ChatsFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         PrivateChatsView=inflater.inflate(R.layout.fragment_chats, container, false);
+
+        //fresco image viewer
 
         mAuth=FirebaseAuth.getInstance();
         currentUserID=mAuth.getCurrentUser().getUid();

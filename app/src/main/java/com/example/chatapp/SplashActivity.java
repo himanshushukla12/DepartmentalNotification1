@@ -31,6 +31,8 @@ public class SplashActivity extends AppCompatActivity {
         ImageView iv = findViewById(R.id.image);
         TextView tv = findViewById(R.id.welcomeText);
         progressBar=findViewById(R.id.progressBar);
+        
+        verifyFingerPrint();
 
 
 
@@ -86,6 +88,12 @@ public class SplashActivity extends AppCompatActivity {
         };
         timer.start();
 */    }
+
+    private void verifyFingerPrint()
+    {
+
+    }
+
     private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
