@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Departmental Notification");
-
         //Checking the connection
 
 
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                //    SendUserToSettingsActivity();
+                  // SendUserToSettingsActivity();
 
                 }
             }
@@ -203,11 +202,14 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.main_find_friends_option:
                 SendUserToFindFriendsActivity();
+                break;
 
             case R.id.about_developer:
                 SendUserToDeveloperActivity();
+                break;
 
             default:
+
 
         }
 
@@ -216,16 +218,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void SendUserToDeveloperActivity()
     {
-        ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
+       /* ProgressDialog progressDialog=new ProgressDialog(MainActivity.this);
         progressDialog.setTitle("about Developer");
         progressDialog.setIcon(R.drawable.ic_developer_mode_black_24dp);
         progressDialog.setMessage("This is Developed under the license of KRISHNA INSTITUTE OF TECHNOLOGY\n");
    //     progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
+*/
+       startActivity(new Intent(MainActivity.this,IntroScreenActivity.class));
 
 
-
-        Toast.makeText(MainActivity.this,"Developed and created by himanshu shukla",Toast.LENGTH_LONG).show();
+       // Toast.makeText(MainActivity.this,"Developed and created by himanshu shukla",Toast.LENGTH_LONG).show();
     }
 
     private void RequestNewGroup()
@@ -233,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this,
                 R.style.AlertDialog);
 
+        builder.setView(R.drawable.inputs);
         builder.setTitle("Enter Group Name :");
         final EditText groupNameField=new EditText(MainActivity.this);
 

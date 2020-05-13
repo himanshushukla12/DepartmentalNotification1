@@ -1,79 +1,42 @@
 {
   "project_info": {
-    "project_number": "1022997267554",
-    "firebase_url": "https://onechat-a57dd.firebaseio.com",
-    "project_id": "onechat-a57dd",
-    "storage_bucket": "onechat-a57dd.appspot.com"
+    "project_number": "771806913400",
+    "firebase_url": "https://departmental-notificatio-8664e.firebaseio.com",
+    "project_id": "departmental-notificatio-8664e",
+    "storage_bucket": "departmental-notificatio-8664e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1022997267554:android:3106ea94548ac30fb63d3b",
+        "mobilesdk_app_id": "1:771806913400:android:408a35895ba40402a09e8d",
         "android_client_info": {
           "package_name": "com.example.chatapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1022997267554-o3etfa0eig0akj96ok8e1jivbptrdobg.apps.googleusercontent.com",
+          "client_id": "771806913400-ad3j3r4b6mjf15mh4n3fk1i55jplnki9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.chatapp",
-            "certificate_hash": "ae3202a7df99ae75a96536544f0d54a315db4a60"
+            "certificate_hash": "ca00aa8e19c4277d6fca5ce60a3940c1468f28c2"
           }
         },
         {
-          "client_id": "1022997267554-0cdqnqealf6fqn9bp3uusmimbt1r8ip1.apps.googleusercontent.com",
+          "client_id": "771806913400-a2gugfaprtjjn5hjkevn4t3i6j3an312.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyClPAyIEYUNMpJropy-RvaMowFoFK5hmho"
+          "current_key": "AIzaSyBwBsBStWxLLDpmmTPs6r7czlLM5GdpIhE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1022997267554-0cdqnqealf6fqn9bp3uusmimbt1r8ip1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1022997267554:android:3b46bd82edecc30d",
-        "android_client_info": {
-          "package_name": "com.himan.onechat"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1022997267554-fnojfvekp0pobvdqb72fqlsg169g5ffg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.himan.onechat",
-            "certificate_hash": "bae0aebcdf9d9c854fe155a72f0b4d9b2dd02f18"
-          }
-        },
-        {
-          "client_id": "1022997267554-0cdqnqealf6fqn9bp3uusmimbt1r8ip1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyClPAyIEYUNMpJropy-RvaMowFoFK5hmho"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1022997267554-0cdqnqealf6fqn9bp3uusmimbt1r8ip1.apps.googleusercontent.com",
+              "client_id": "771806913400-a2gugfaprtjjn5hjkevn4t3i6j3an312.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

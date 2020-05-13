@@ -19,6 +19,7 @@ import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,7 +57,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity
 {
-    private String messageRecieverID,messageRecieverName,messageRecieverImage,messageSenderID;
+    private String messageRecieverID,messageRecieverName,messageRecieverImage,messageSenderID,currentUserID;
     private TextView userName,userLastSeen;
     private CircleImageView userImage;
     private static final String TAG = "ChatActivity";
@@ -98,6 +99,7 @@ public class ChatActivity extends AppCompatActivity
         Picasso.get().load(messageRecieverImage).placeholder(R.drawable.profilepicture).into(userImage);
 
 
+
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) 
@@ -107,6 +109,7 @@ public class ChatActivity extends AppCompatActivity
             }
         });
         DisplayLastSeen();
+
 
         SendFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -426,6 +429,7 @@ public class ChatActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
+
         RootRef.child("Messages").child(messageSenderID).child(messageRecieverID)
                 .addChildEventListener(new ChildEventListener()
                 {
@@ -546,5 +550,55 @@ public class ChatActivity extends AppCompatActivity
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         // [END rtdb_enable_persistence]
+    }
+    private void VerifyUserExistence()
+    {
+        String currentUserID=mAuth.getCurrentUser().getUid();
+
+        RootRef.child(currentUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if((dataSnapshot.child("name")).exists())
+
+                {
+                   // Toast.makeText(MainActivity.this,"Welcome",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    //    SendUserToSettingsActivity();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void updateUserStatus(String state)
+    {
+        String saveCurrentTime, saveCurrentDate;
+
+        Calendar calendar=Calendar.getInstance();
+
+        SimpleDateFormat currentDate=new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate=currentDate.format(calendar.getTime());
+        SimpleDateFormat currentTime=new SimpleDateFormat("hh:mm a");
+
+        saveCurrentTime=currentTime.format(calendar.getTime());
+
+        HashMap<String,Object> onlineStateMap =new HashMap<>();
+        onlineStateMap.put("time",saveCurrentTime);
+        onlineStateMap.put("date",saveCurrentDate);
+        onlineStateMap.put("state",state);
+
+        currentUserID=mAuth.getCurrentUser().getUid();
+
+        RootRef.child("Users").child(currentUserID).child("userState")
+                .updateChildren(onlineStateMap);
+
+
     }
 }
