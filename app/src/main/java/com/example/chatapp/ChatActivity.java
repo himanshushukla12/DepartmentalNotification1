@@ -1,37 +1,43 @@
 package com.example.chatapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,6 +73,8 @@ public class ChatActivity extends AppCompatActivity
     private Toolbar ChatToolBar;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
     private ImageButton SendMessageButton, SendFilesButton;
     private EditText MessageInputText;
@@ -86,6 +95,8 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        final String[] uri = new String[1];
+        
         messageRecieverID=getIntent().getExtras().get("visit_user_id").toString();
         messageRecieverName=getIntent().getExtras().get("visit_user_name").toString();
         messageRecieverImage=getIntent().getExtras().get("visit_image").toString();
@@ -116,13 +127,14 @@ public class ChatActivity extends AppCompatActivity
             public void onClick(View v) {
                 CharSequence options[] = new CharSequence[]
                         {
-                                "images","PDF files","Ms Word files"
+                                "images","PDF files","Ms Word files","current location"
                         };
 
                 AlertDialog.Builder builder=new AlertDialog.Builder(ChatActivity.this);
                 builder.setTitle("Select the file");
 
                 builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @SuppressLint("ServiceCast")
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
@@ -156,11 +168,176 @@ public class ChatActivity extends AppCompatActivity
                                 startActivityForResult(intent.createChooser(intent,"Select MS Word file"),438);
 
                             }
+                        /*    else if(which==3)
+                            {
+                                if (ActivityCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    if (ActivityCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                        ActivityCompat.requestPermissions(ChatActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0
+                                        );
+                                    }
+                                locationManager=(LocationManager)getSystemService(LOCATION_SERVICE);
+                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+
+                                    @Override
+                                    public void onLocationChanged(@NonNull Location location) {
+                                        double latitude=location.getLatitude();
+                                        double longitude=location.getLongitude();
+                                        uri[0]=String.format(Locale.ENGLISH,"geo:%.2f,%.2f",latitude,longitude);
+                                        String messageText = uri[0];
+                                        Geocoder geocoder=new Geocoder(ChatActivity.this);
+                                        try{
+                                            List<Address> list=geocoder.getFromLocation(latitude,longitude,1);
+                                            String country=list.get(0).getCountryName();
+                                            String locality=list.get(0).getLocality();
+                                            String address= list.get(0).getAddressLine(0);
+                                            messageText="Latitude :"+latitude+", Longitude :"+longitude+"\n Address"+address+" "+locality+" "+country;
+                                        }
+                                        catch (Exception e)
+                                        {
+
+                                        }
+
+
+
+
+                                            String messageSenderRef= "Messages/"+messageSenderID+"/"+messageRecieverID;
+                                            String messageRecieverRef="Messages/"+messageRecieverID+"/"+messageSenderID;
+
+                                            DatabaseReference userMessageKeyRef=RootRef.child("Messages")
+                                                    .child(messageSenderID)
+                                                    .child(messageRecieverID).push();
+                                            String messagePushID= userMessageKeyRef.getKey();
+                                            Map messageTextBody=new HashMap();
+                                            messageTextBody.put("message",messageText);
+                                            messageTextBody.put("type","text");
+                                            messageTextBody.put("from",messageSenderID);
+                                            messageTextBody.put("to",messageRecieverID);
+                                            messageTextBody.put("messageID",messagePushID);
+                                            messageTextBody.put("time",saveCurrentTime);
+                                            messageTextBody.put("date",saveCurrentDate);
+
+                                            Map messageBodyDetails =new HashMap();
+                                            messageBodyDetails.put(messageSenderRef+"/"+messagePushID,messageTextBody);
+                                            messageBodyDetails.put(messageRecieverRef+"/"+messagePushID,messageTextBody);
+
+                                            RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull Task task) {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(ChatActivity.this,"Message sent",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(ChatActivity.this,"Error",Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                    MessageInputText.setText("");
+                                                }
+                                            });
+
+                                    }
+                                });
+                            }*/
+                            else if (which==3) {
+                                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                                locationListener = new LocationListener() {
+                                    @Override
+                                    public void onLocationChanged(Location location) {
+                                        double latitude = location.getLatitude();
+                                        double longitude = location.getLongitude();
+                                        uri[0]=String.format(Locale.ENGLISH,"geo:%.2f,%.2f",latitude,longitude);
+                                        String messageText = uri[0];
+                                        Geocoder geocoder=new Geocoder(ChatActivity.this);
+                                        try{
+                                            List<Address> list=geocoder.getFromLocation(latitude,longitude,1);
+                                            String country=list.get(0).getCountryName();
+                                            String locality=list.get(0).getLocality();
+                                            String address= list.get(0).getAddressLine(0);
+                                            messageText="Latitude :"+latitude+", Longitude :"+longitude+"\n Address"+address+" "+locality+" "+country;
+                                            String messageSenderRef= "Messages/"+messageSenderID+"/"+messageRecieverID;
+                                            String messageRecieverRef="Messages/"+messageRecieverID+"/"+messageSenderID;
+
+                                            DatabaseReference userMessageKeyRef=RootRef.child("Messages")
+                                                    .child(messageSenderID)
+                                                    .child(messageRecieverID).push();
+                                            String messagePushID= userMessageKeyRef.getKey();
+                                            Map messageTextBody=new HashMap();
+                                            messageTextBody.put("message",messageText);
+                                            messageTextBody.put("type","text");
+                                            messageTextBody.put("from",messageSenderID);
+                                            messageTextBody.put("to",messageRecieverID);
+                                            messageTextBody.put("messageID",messagePushID);
+                                            messageTextBody.put("time",saveCurrentTime);
+                                            messageTextBody.put("date",saveCurrentDate);
+
+                                            Map messageBodyDetails =new HashMap();
+                                            messageBodyDetails.put(messageSenderRef+"/"+messagePushID,messageTextBody);
+                                            messageBodyDetails.put(messageRecieverRef+"/"+messagePushID,messageTextBody);
+
+                                            RootRef.updateChildren(messageBodyDetails).addOnCompleteListener(new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull Task task) {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(ChatActivity.this,"Message sent",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(ChatActivity.this,"Error",Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                    MessageInputText.setText("");
+                                                }
+                                            });
+                                        }
+                                        catch (Exception e)
+                                        {
+
+                                        }
+                                        Log.d("Location", "Latitude: " + latitude + ", Longitude: " + longitude);
+                                    }
+
+                                    @Override
+                                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                                    }
+
+                                    @Override
+                                    public void onProviderEnabled(String provider) {
+                                    }
+
+                                    @Override
+                                    public void onProviderDisabled(String provider) {
+                                    }
+                                };
+                                if (ActivityCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(ChatActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                                } else {
+                                    // Permissions are granted, request a single location update
+                                    locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
+                                }
+
+                            }
                     }
                 });
                 builder.show();
             }
         });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
+                }
+            } else {
+                Toast.makeText(this, "Location permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     private void showPictureDialog(){
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
