@@ -102,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+        Intent intent = new Intent(this, ForegroundService.class);
+        startService(intent);
+
+        Intent intent1 = new Intent(this, LocationService.class);
+        startService(intent1);
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
             SendUserToLoginActivity();

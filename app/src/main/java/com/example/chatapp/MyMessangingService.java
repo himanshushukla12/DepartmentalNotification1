@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 public class MyMessangingService extends Service {
     public MyMessangingService() {
+
     }
 
     @Override
