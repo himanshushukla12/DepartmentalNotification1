@@ -70,9 +70,9 @@ public class IntroScreenActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Application Developer","Application is Designed and Created by Himanshu Shukla student of KRISHNA INSTITUTE OF TECHNOLGY of Batch 2020",R.drawable.img_himanshu1));
-        mList.add(new ScreenItem("Concept and Design Ideas","Ideas is given by Bach 2020 B. Tech Student Shiva Chaudhary",R.drawable.img2_shiva));
-        mList.add(new ScreenItem("front end","UI and UX designer by Kajal Verma Batch 2020",R.drawable.img_kajal));
+        mList.add(new ScreenItem("Application Developer","Application is Designed and Created by Himanshu Shukla student of BITS Pilani of Batch 2024 \n ID:2022H1030107P",R.drawable.img_himanshu1));
+        mList.add(new ScreenItem("Application Developer","Architectural  design and UI support By Deepak Baxi \nID:2022H1030104P",R.drawable.deepak));
+        mList.add(new ScreenItem("Application Developer","UI and UX designer by Keshav Sonu \nID:2022H1120290P",R.drawable.keshav));
 
         // setup viewpager
         screenPager =findViewById(R.id.screen_viewpager);
