@@ -44,6 +44,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import io.fabric.sdk.android.Fabric;
+import notification.NotificationHelper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -72,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
         (FirebaseDatabase.getInstance().getReference()).keepSynced(true);
 
 
-
+        NotificationHelper notificationHelper = new NotificationHelper(this);
+        notificationHelper.createNotificationChannel();
 
 
         mToolbar = findViewById(R.id.main_page_toolbar);

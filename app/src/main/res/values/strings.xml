@@ -9,6 +9,8 @@
     <string name="logout">logout</string>
     <string name="write_your_message_here">write your message here…</string>
     <string name="email">Email…</string>
+    <string name="channel_name">My Notification Channel</string>
+    <string name="channel_description">Description of My Notification Channel</string>
     <string name="instructions">
 Place your fingertip on the Home button to verify your identity
 </string>

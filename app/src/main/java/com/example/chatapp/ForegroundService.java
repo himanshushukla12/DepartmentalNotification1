@@ -14,7 +14,6 @@ public class ForegroundService extends Service {
         Log.d(TAG, "onStartCommand");
         return START_STICKY;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
