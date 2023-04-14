@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         MultiDex.install(this);
 
         myTabLayout.setupWithViewPager(myViewPager);
+
     }
 
     @Override
